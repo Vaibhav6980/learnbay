@@ -1,0 +1,40 @@
+//Insertion Sort
+#include<iostream>
+#define ARRAY_SIZE 10
+using namespace std;
+
+int main()
+{
+	int n = ARRAY_SIZE;
+	int a[n] = {3,4,7,5,6,2,9,1,12,10};
+	int i,j,temp,k;
+	for (i=1; i<n; i++)
+	{
+		j = i-1;
+		temp = a[i];
+		while (j>=0 && (temp < a[j] ))
+		{		
+			a[j + 1] = a[j];	
+			j--;
+		}
+//			if (j<0)
+//				j=j+1;
+//			cout<<"Value of j is "<< j <<" after "<<i<<"th pass"<<endl;
+//			//Shift elements from backwards
+//			// from j+1 to i
+//			for (k=i; k>=j;k--)
+//			{
+//				a[k]=a[k-1];
+//			}
+		//put elements
+		a[j+1] = temp;
+	}
+	//print
+	cout<<"Ascending Order is "<<endl;
+	for (i = 0;i<n;i++)
+	{
+		cout<<a[i]<<" ";
+	}
+	cout<<endl;
+	return 0;
+}
