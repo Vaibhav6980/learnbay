@@ -1,0 +1,60 @@
+//Shell sort with three loops 
+#include<iostream>
+#include <math.h>
+#define ARRAY_SIZE 10
+using namespace std;
+void swap (int [], int , int );
+void shell_sort(int [], int );
+void print_array(int [], int );
+int main()
+{
+	int n = ARRAY_SIZE;
+	int a[n] = {0,25,27,22,5,24,31,3,4,2};
+	int i,j;
+	shell_sort(a, n);
+	//print
+	cout<<"Ascending Order is "<<endl;
+	print_array(a,n);
+	cout<<endl;
+	return 0;
+}
+void print_array(int a[], int n)
+{
+	for (int i = 0;i<n;i++)
+	{
+		cout<<a[i]<<" ";
+	}
+	cout<<endl;
+}
+void shell_sort(int a[], int n)
+{
+	cout<<"Shell Sort" <<endl;
+	int gap = floor(n/2);
+	cout<<"gap is " <<gap<<endl;
+	int i,j=gap,k;
+	while (gap>0)
+	{
+		for (j=gap; j<n;j++)
+		{
+			//compare elements at index i and j
+			for (i=j-gap; (i>=0) && (a[i]>a[j]) ;i++)
+			{
+				swap (a,i,j);
+				//Now there is possibility of towards 
+				//left
+				j = i;
+				i = j - gap;
+			}						
+		}
+		//print_array(a,n);
+		gap = floor(gap/2);
+		cout<<"gap is " <<gap<<endl;
+	}	
+}
+void swap (int a[], int i, int j)
+{
+	//cout<<"swapping a["<<i<<"] = "<<a[i]<<" with a["<<j<<"] = "<<a[j]<<endl; 
+	a[i] = a[i] + a[j];
+	a[j] = a[i] - a[j];
+	a[i] = a[i] - a[j];
+}
