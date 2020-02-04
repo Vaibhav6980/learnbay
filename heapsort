@@ -1,0 +1,92 @@
+//Heap Sort using Find min element
+#include<iostream>
+#define ARRAY_SIZE 11
+using namespace std;
+void heapsort (int [], int);
+void swap (int [],int,int);
+void heapify(int [], int , int );
+void printArray(int [], int);
+int a2[ARRAY_SIZE];
+int main()
+{
+	int n = ARRAY_SIZE;
+	int a[n] = { 1, 3, 5, 4, 6, 13, 10, 9, 8, 15, 17};
+	int i,j;
+	cout<<"Heap Sort "<<endl;
+	heapsort(a,n);
+	//print
+	cout<<"Ascending Order is "<<endl;
+//	printArray(a, n);
+	for (i = 0;i<n;i++)
+	{
+		cout<<a[i]<<" ";
+	}
+	cout<<endl;
+	return 0;
+}
+void heapsort(int a[], int n)
+{
+	// Here, we will create max heap
+	// point is to make sure in array we have data sorted as per 
+	// max heap property
+	int i;
+	//It is just rearrangement of elements with array
+	for ( i=(n/2)-1;i>=0;i--)
+	{
+		//here we are selecting the last internal node
+		//and would try to make sure it follows max heap property
+		heapify(a,n,i);
+	}
+	
+	//Now to get max element from heap 
+	//we have to delete elements one by one and 
+	// keeping in mind max heap property is satisified
+	//Pick the last leaf node to be at root
+	for (i = n-1;i>=0;i--)
+	{
+		swap (a, 0, i);
+		//always call heapify on root node
+		//then it will recursively go downwards to make sure
+		//max heap property satisfies
+		heapify(a,i,0);
+	}
+	  
+}
+/* A utility function to print array of size n */
+void printArray(int arr[], int n) 
+{ 
+    for (int i=0; i<n; ++i) 
+        cout << arr[i] << " "; 
+    cout << "\n"; 
+} 
+void heapify(int a[], int n, int i)
+{
+	cout<<"Heapify "<<endl;
+	int large_among_three_index=i;
+	int l_index = (2*i)+1;
+	int r_index = (2*i)+2;
+	//since it is max heap
+	//we will compare all three elements to make sure 
+	//max element act as parent	
+	if ( l_index<n && a[l_index]>a[large_among_three_index])
+		large_among_three_index=l_index;
+	if ( r_index <n && a[r_index]>a[large_among_three_index])
+		large_among_three_index=r_index;
+	//Now we know the largest element among three
+	//Just swap the elements at large index with root
+	if (large_among_three_index != i)
+	{
+		swap(a,large_among_three_index, i);
+		//After swap index i has largest element among three
+		//Call heapify again on swapped element
+		//to make sure after swap all elements are intacted
+		
+		heapify(a,n,large_among_three_index);
+	}
+}
+void swap (int a[],int l,int r)
+{
+	a[l] = a[l] + a[r]; 
+	a[r] = a[l] - a[r]; 
+	a[l] = a[l] - a[r]; 
+}
