@@ -1,0 +1,87 @@
+//Shell sort
+#include<iostream>
+#include <math.h>
+#define ARRAY_SIZE 9
+using namespace std;
+void swap (int [], int , int );
+void shell_sort(int [], int );
+void recursive (int [], int , int , int, int);
+void print_array(int [], int );
+int main()
+{
+	int n = ARRAY_SIZE;
+	int a[n] = {25,27,22,5,24,31,3,4,2};
+	int i,j;
+	shell_sort(a, n);
+	//print
+	cout<<"Ascending Order is "<<endl;
+	print_array(a,n);
+	cout<<endl;
+	return 0;
+}
+void print_array(int a[], int n)
+{
+	for (int i = 0;i<n;i++)
+	{
+		cout<<a[i]<<" ";
+	}
+	cout<<endl;
+}
+void shell_sort(int a[], int n)
+{
+	cout<<"Shell Sort" <<endl;
+	int gap = floor(n/2);
+	cout<<"gap is " <<gap<<endl;
+	int i,j=gap,k;
+	while (gap!=0)
+	{
+		for (i=j-gap;i>=0 && j<n;i++,j++)
+		{
+			//compare elements at index i and j
+			if (a[i]>a[j])
+			{
+				recursive (a,i,j,gap,n);
+			}
+			else
+			{
+				//Proceed
+			}
+		}
+		print_array(a,n);
+		gap = floor(gap/2);
+		j=gap;
+		cout<<"gap is " <<gap<<endl;
+	}
+	
+}
+void recursive (int a[], int i, int j, int gap, int n)
+{
+	swap (a,i,j);
+	//for checking backwards now
+	j=i;
+	i =j-gap;
+	//cout<<"Updated values of i and j are "<<i<<" "<<j<<endl;
+	if (i>=0)
+	{	
+		//compare i and i-gap
+		if (a[i]>a[j])
+		{
+			recursive (a,i,j, gap,n);
+		}
+		else 
+		{
+			return;
+		}		
+	}
+	else 
+	{
+			return;
+	}	
+}
+void swap (int a[], int i, int j)
+{
+	//cout<<"swapping a["<<i<<"] = "<<a[i]<<" with a["<<j<<"] = "<<a[j]<<endl; 
+	a[i] = a[i] + a[j];
+	a[j] = a[i] - a[j];
+	a[i] = a[i] - a[j];
+}
