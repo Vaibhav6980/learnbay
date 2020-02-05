@@ -1,0 +1,51 @@
+//studied from https://www.geeksforgeeks.org/activity-selection-problem-greedy-algo-1/
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+struct Activity
+{
+	int start_time;
+	int finish_time;
+};
+void perform_activity(Activity [], int );
+void print_array(Activity [], int );
+int main()
+{
+	Activity a []={{5, 9}, {1, 2}, {3, 4}, {0, 6}, {5, 7}, {8, 9}};
+	int n = sizeof(a)/sizeof(Activity);
+	perform_activity(a,n);
+	return 0;
+}
+bool activitycompare(Activity a, Activity b)
+{
+	return (a.finish_time < b.finish_time);
+}
+void perform_activity(Activity a[], int n)
+{
+	sort(a,a+n,activitycompare);
+	int i=0;
+	cout << "(" << a[i].start_time << ", "
+              << a[i].finish_time << ") "; 
+	//So first activity will be first activity after 
+	//the sorted array
+	for(int j=1;j<n;j++)
+	{
+		
+		if (a[j].start_time >= a[i].finish_time)
+		{
+			cout<<", ";
+			cout << "(" << a[j].start_time << ", "
+              << a[j].finish_time << ") "; 
+			i=j;
+		}
+	}
+	//print_array(a,n);
+}
+void print_array(Activity a[], int n)
+{
+	for (int i =0;i<n;i++)
+	{
+		cout<<"Start_time is "<<a[i].start_time;
+		cout<<" finish_time is "<<a[i].finish_time<<endl;
+	}
+}
