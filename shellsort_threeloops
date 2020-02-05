@@ -1,7 +1,7 @@
 //Shell sort with three loops 
 #include<iostream>
 #include <math.h>
-#define ARRAY_SIZE 10
+#define ARRAY_SIZE 9
 using namespace std;
 void swap (int [], int , int );
 void shell_sort(int [], int );
@@ -9,7 +9,7 @@ void print_array(int [], int );
 int main()
 {
 	int n = ARRAY_SIZE;
-	int a[n] = {0,25,27,22,5,24,31,3,4,2};
+	int a[n] = {25,27,22,5,24,31,3,4,2};
 	int i,j;
 	shell_sort(a, n);
 	//print
@@ -29,26 +29,24 @@ void print_array(int a[], int n)
 void shell_sort(int a[], int n)
 {
 	cout<<"Shell Sort" <<endl;
-	int gap = floor(n/2);
-	cout<<"gap is " <<gap<<endl;
-	int i,j=gap,k;
-	while (gap>0)
+	int gap ;
+	int i,j;
+	for (gap=n/2;gap>=1;gap=gap/2)
 	{
+		//use j to calc i
 		for (j=gap; j<n;j++)
 		{
 			//compare elements at index i and j
-			for (i=j-gap; (i>=0) && (a[i]>a[j]) ;i++)
+			for (i=j-gap; i>=0 ;i-=gap)
 			{
-				swap (a,i,j);
-				//Now there is possibility of towards 
-				//left
-				j = i;
-				i = j - gap;
-			}						
+				if (a[i]>a[i+gap])
+					swap (a,i,i+gap);
+				else
+					break;
+				cout <<"Values of i and j are "<<i<<" "<<j<<endl;
+			}	
 		}
-		//print_array(a,n);
-		gap = floor(gap/2);
-		cout<<"gap is " <<gap<<endl;
+		print_array(a,n);		
 	}	
 }
 void swap (int a[], int i, int j)
