@@ -1,0 +1,32 @@
+
+//zigzag Iterator 281 leetcode
+#include <iostream>
+#define a1_size 8
+#define a2_size 6
+using namespace std;
+int main()
+{
+	int n1=a1_size,n2=a2_size;
+	int q[n1]={1,2,3,4,5,6,7,8};
+	int w[n2]={9,10,11,12,13,14};
+	int i,j;
+	for (i =0;i<n1;i++)
+	{	
+		cout<<q[i]<<endl;
+		for (j=i;(j<=i) && (j<n2);j++)
+		{
+			cout<<w[j]<<endl;
+		}		
+	}
+	if (i<n1)
+	{
+		for (;i<n1;i++)
+			cout<<q[i]<<endl;
+	}
+	if (j<n2)
+	{
+		for (;j<n2;j++)
+			cout<<w[j]<<endl;
+	}
+	return 0;
+}
