@@ -1,0 +1,21 @@
+//print duplicate approach 2
+#include <iostream>
+#define ARRAY_SIZE 10
+using namespace std;
+int main()
+{
+	int i, n = ARRAY_SIZE;
+	int a[n] = { 1,2,2,2,2,4,5,7,8,8};
+
+	for (i=0;i<n-1;i++)
+	{
+		if(a[i]==a[i+1])
+		{
+			cout<<a[i]<<" ";
+			while ((++i<(n-1))&&(a[i]==a[i+1]));
+			
+		}
+	}
+	cout <<endl;
+	return 0;
+}
