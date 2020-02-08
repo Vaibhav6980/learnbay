@@ -1,0 +1,51 @@
+//matrix spiral print
+//Full analysis and focus on what to print first
+ //and then deciding the values is required
+#include <iostream>
+#define num_of_rows 5
+#define num_of_cols 4
+using namespace std;
+int main()
+{
+	int m=num_of_rows; 
+	int n=num_of_cols;
+	int a[m][n]={{1,2,3,4},
+	{5,6,7,8},
+	{9,10,11,12},
+	{13,14,15,16},
+	{17,18,19,20}};
+	int i=0,j=0;
+	int nrow=0,ncol=0;
+	int valid_row=0;
+	int valid_col=0;
+	while (nrow<m && ncol<n)
+	{
+		//Print left to right row
+		valid_row = nrow ;
+		i = ncol;		
+		for (;i<n-ncol;i++)
+			cout << a[valid_row][i]<<" ";
+		
+		//print top to down column
+		i = nrow + 1;
+		valid_col=n- ncol-1;
+		for (;i<m-nrow;i++)
+			cout << a[i][valid_col]<<" ";
+		
+		//print right to left now
+		valid_row = m - nrow - 1;
+		i = n - ncol - 1 - 1;		
+		for(;i>=ncol;i--)
+			cout << a[valid_row][i] <<" ";
+				
+		//print from down to top now
+		i = m - nrow -1  -1;
+		valid_col = ncol ;
+		for (;i>nrow;i--)
+			cout <<a[i][ncol] << " ";
+		
+		nrow++;
+		ncol++;
+	}
+	return 0;
+}
