@@ -1,0 +1,9 @@
+int size_tree(Node* root)
+{
+	if (root==NULL)
+		return 0;
+	else
+	{
+		return (size_tree(root->left) + 1 + size_tree(root->right));
+	}
+}
