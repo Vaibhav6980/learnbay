@@ -1,0 +1,75 @@
+//level order tree traversal
+#include<iostream>
+using namespace std;
+class node
+{
+	public: 
+		int data;
+		node * left;
+		node * right;
+		node (int d)
+		{
+			this->data=d;
+			this->left=NULL;
+			this->right=NULL;
+		}
+};
+void print_given_level(node *, int);
+void print_level_order(node * );
+int height(node *);
+int main()
+{
+	node * root= new node(1);
+	root->left = new node (2);
+	root->right = new node (3);
+	root->left->left = new node (4);
+	root->left->right = new node (5);
+	root->left->left->left = new node (8);
+	root->left->left->right = new node (9);
+	cout<<"Height is "<<height(root)<<endl;
+	cout<<"Level Order Traversal is ";
+	print_level_order(root);
+	return 0;
+}
+void print_level_order(node * r)
+{
+	int i;
+	int h;
+	if (r!=NULL)
+	{
+		h = height(r);
+		for (i=0;i<h;i++)
+		{
+			print_given_level(r, i);
+		}
+	}	
+}
+void print_given_level(node * h, int level)
+{
+	if (h==NULL)
+		return;
+	else if (level == 1)
+	{
+		cout<<h->data<<" ";
+	}
+	else if (level > 1)  
+    {  
+        print_given_level(h->left, level-1);  
+        print_given_level(h->right, level-1);  
+    }  
+}
+
+int height (node * r)
+{
+	if (r==NULL)
+		return 0;
+	else
+	{
+		int left_h  = height(r->left);
+		int right_h = height(r->right);
+		if (left_h > right_h)
+			return left_h+1;
+		else
+			return right_h+1;
+	}
+}
