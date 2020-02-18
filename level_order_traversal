@@ -26,6 +26,7 @@ int main()
 	root->left->right = new node (5);
 	root->left->left->left = new node (8);
 	root->left->left->right = new node (9);
+	//Height of root is 1
 	cout<<"Height is "<<height(root)<<endl;
 	cout<<"Level Order Traversal is ";
 	print_level_order(root);
@@ -38,7 +39,7 @@ void print_level_order(node * r)
 	if (r!=NULL)
 	{
 		h = height(r);
-		for (i=0;i<h;i++)
+		for (i=0;i<=h;i++)
 		{
 			print_given_level(r, i);
 		}
