@@ -1,0 +1,97 @@
+//two nodes swapped in bst
+#include<iostream>
+#define TREE_SIZE 5
+int aux_arr[TREE_SIZE];
+int index =-1;
+void swap (int,int);
+using namespace std;
+void print_arr();
+class node
+{
+	public: 
+		int data;
+		node * left;
+		node * right;
+		node (int d)
+		{
+			this->data=d;
+			this->left=NULL;
+			this->right=NULL;
+		}
+};
+void check_bst(node * );
+void inorder_traversal(node *);
+int main()
+{
+	node * root= new node(10);
+	root->left = new node (5);
+	root->right = new node (8);
+	root->left->left = new node (2);
+	root->left->right = new node (20);	
+	inorder_traversal(root);
+	check_bst(root);
+	print_arr();
+	return 0;
+}
+void print_arr()
+{
+	cout<<endl<<"Data is ";
+	for (int i =0;i<TREE_SIZE;i++)
+	{
+		cout << aux_arr[i]<<" ";
+	}
+}
+void inorder_traversal(node * r)
+{
+	if (r==NULL)
+		return ;
+	else
+	{
+		inorder_traversal(r->left);
+		cout<<r->data<<" ";
+		aux_arr[++index]=r->data;
+		inorder_traversal(r->right);
+	}	
+}
+void check_bst(node * r)
+{
+	int swap_index_first=-1;
+	//Check BST now
+	for (int i =0;i<TREE_SIZE;i++)
+	{
+		
+		if (aux_arr[i]>aux_arr[i+1])
+		{
+			swap_index_first = i;
+			//Case 1: Adjacent elements are swapped
+			if (aux_arr[i] < aux_arr[i+2])
+			{
+				cout<<"Swap Adjacent elements"<<endl;
+				cout <<"Indexes are "<<i <<"and "<<i+1<<endl;
+				swap(i, i+1);
+				return ;
+			}
+			//Case 2: Non-Adjacent elements are swapped			
+			else if (aux_arr[i])
+			{
+				//Search for non-adjacent index where to swap element
+				cout<<"Swap Non-Adjacent elements"<<endl;
+				for (int j=i+1;j<TREE_SIZE;j++)
+				{
+					if (aux_arr[j] > aux_arr[j+1])
+					{	
+						swap(swap_index_first, j+1);
+						cout <<endl<<"Indexes are "<<swap_index_first <<"and "<<j+1<<endl;
+						return ;
+					}	
+				}
+			}
+		}
+	}
+}
+void swap(int i, int j)
+{
+	aux_arr[i] = aux_arr[i] + aux_arr[j];
+	aux_arr[j] = aux_arr[i] - aux_arr[j];
+	aux_arr[i] = aux_arr[i] - aux_arr[j];
+}
