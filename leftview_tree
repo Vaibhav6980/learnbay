@@ -1,4 +1,5 @@
 //left view of tree
+//I used level order traversal and modified the function print_given_level to print only first node at a level using flag.
 #include<iostream>
 using namespace std;
 int static flag =0;
