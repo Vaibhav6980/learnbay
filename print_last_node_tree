@@ -1,0 +1,96 @@
+//print last node of tree
+// go for level order traversal using recursion
+//Then modify the funciton to print only one node on a given level
+//then make sure to only traverse the last level
+// Now make sure to traverse right subtree first and then left subtree
+#include<iostream>
+using namespace std;
+int static flag =0;
+class node
+{
+	public: 
+		int data;
+		node * left;
+		node * right;
+		node (int d)
+		{
+			this->data=d;
+			this->left=NULL;
+			this->right=NULL;
+		}
+};
+void print_given_level(node *, int);
+void print_level_order(node * );
+int height(node *);
+int main()
+{
+	node * root= new node(1);
+	root->left = new node (2);
+	root->right = new node (3);
+	root->left->left = new node (4);
+	root->left->right = new node (5);
+	root->left->left->left = new node (8);
+	root->left->left->right = new node (9);
+	//Inserting data on right side of tree
+	root->right->left = new node (6);
+	root->right->right = new node (7);
+	root->right->left->left = new node (18);
+	root->right->left->right = new node (19);
+	root->right->right->left = new node (10);
+	root->right->right->right = new node (11);
+	root->right->left->left->left = new node (12);
+	root->right->left->left->right = new node (13);
+	root->right->left->left->right->right = new node (14);
+	//here root is considered at height 1
+	cout<<"Height is "<<height(root)<<endl;
+	cout<<"Level Order Traversal is ";
+	print_level_order(root);
+	return 0;
+}
+void print_level_order(node * r)
+{
+	int i;
+	int h;
+	if (r!=NULL)
+	{
+		h = height(r);
+		//Since we need to check only last node
+		for (i=h ;i<=h;i++)
+		{
+			flag=1;
+			print_given_level(r, i);
+		}
+	}	
+}
+void print_given_level(node * h, int level)
+{
+	if (h==NULL)
+		return;
+	else if ((level == 1 )&& (flag==1))
+	{
+		cout<<h->data<<" ";
+		flag=0;
+		return;
+	}
+	else if (level > 1)  
+    {  
+        print_given_level(h->right, level-1);  
+        print_given_level(h->left, level-1);  
+    }  
+    //return;
+}
+
+int height (node * r)
+{
+	if (r==NULL)
+		return 0;
+	else
+	{
+		int left_h  = height(r->left);
+		int right_h = height(r->right);
+		if (left_h > right_h)
+			return left_h+1;
+		else
+			return right_h+1;
+	}
+}
