@@ -1,0 +1,95 @@
+//create queue using stack
+#include <iostream>
+#include <stack>
+using namespace std;
+stack<int> s1;
+stack<int> s2;
+void enqueue(int data);
+int dequeue();
+void show_stack();
+int main()
+{
+	cout<<"Main Function"<<endl;
+	
+	enqueue(9);
+	enqueue(7);
+	enqueue(3);
+	enqueue(5);
+	enqueue(1);
+	enqueue(2);
+	dequeue();
+	
+	dequeue();
+	
+	enqueue(19);
+	enqueue(27);
+	dequeue();
+	show_stack();
+	return 0;
+}
+void enqueue(int data)
+{
+	cout<<"Inserting Data "<<data <<endl;
+	s1.push(data);
+}
+int dequeue()
+{
+	int d;
+	if (s2.empty() && !s1.empty())
+	{
+		while (!s1.empty())
+		{
+			d = s1.top();
+			s1.pop();
+			s2.push(d);
+		}
+	}
+	//Now delete operation
+	if (!s2.empty())
+	{
+		int x = s2.top();
+		cout<<"Element deleted is "<<x <<endl;
+		s2.pop();
+		return x;
+	}
+	else
+	{
+		//s2 is empty
+//		if (!s1.empty())
+//		{
+//			//push all elemnts of s1 to s2 and then pop
+//			while (!s1.empty())
+//		{
+//			d = s1.top();
+//			s1.pop();
+//			s2.push(d);
+//		}
+//		}
+		//else
+		{
+			//s2 and s1 both are empty
+			cout<<"No elements in any of stacks"<<endl;
+			return INT_MIN;
+		}
+	}
+	
+}
+
+void show_stack()
+{
+	cout<<"Printing Stacks data as per Queue sequence"<<endl;
+	cout<<"Please match with reverese "<<endl;
+	//first print stack 2 and then stack 1
+	//cout<<endl<<"s2 "<<endl;
+	while (!s2.empty())
+	{
+		cout<<s2.top()<<"->";
+		s2.pop();
+	}
+	//cout<<endl<<"s1 "<<endl;
+	while (!s1.empty())
+	{
+		cout<<s1.top()<<"->";
+		s1.pop();
+	}
+}
