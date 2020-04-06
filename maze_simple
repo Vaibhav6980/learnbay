@@ -1,0 +1,147 @@
+//https://codingrecipies.blogspot.com/search/label/Backtracking
+//solving maze
+//only right and down movement is allowed
+#include <iostream>
+#include <conio.h>
+using namespace std;
+#define ROW 5
+#define COL 5
+#define MAX 15
+int sol[MAX][2];
+int k=0;
+bool mazeutil(int [ROW][COL], int, int);
+void printsolution();
+void printsolarray();
+int main()
+{
+	int maze [ROW][COL] = {{1,1,0,1,1},
+					 {0,1,0,1,0},
+					 {1,1,1,1,0},
+					 {0,1,0,1,0},
+					 {1,0,1,1,1}
+					};
+	cout<<"Maze Code "<<endl;
+	if (mazeutil(maze, 0,0) == true)
+	{
+		cout << "Solution is "<<endl;
+		printsolarray();
+		printsolution();	
+	}
+	else
+	{
+		cout<<"No solution possible"<<endl;
+	}	
+	return 0;
+}
+
+bool mazeutil(int maze[ROW][COL], int row, int col)
+{
+	if ((row == ROW-1) && (col == COL-1))	
+	{
+	//	printsolution();
+		return true;
+	}
+	else
+	{
+		//move in row left to right
+		cout<<"Check move in row left to right"<<endl;
+		cout<<"row is "<<row<<" col is "<<col<<endl;
+		if (col < COL)
+		{
+			if (maze[row][col+1] == 1)
+			{
+				k++;
+				sol[k][0]	= row;
+				sol[k][1]   = col+1;
+				cout<<"Moving in row "<<sol[k][0] <<" col is "<<sol[k][1]<<endl;
+				if (mazeutil(maze, sol[k][0], sol[k][1]))
+					return true;
+				else
+					k--;
+			}	
+		}
+		
+		//move in col top to bottom
+		cout<<"Check move in col top to bottom"<<endl;
+		cout<<"row is "<<row<<" col is "<<col<<endl;
+		if (row < ROW)
+		{
+			if (maze[row+1][col] == 1) //&& (sol[k][0] != )
+			{
+				k++;
+				sol[k][0]	= row + 1;
+				sol[k][1]   = col;
+				cout<<"Moving in row "<<sol[k][0] <<" col is "<<sol[k][1]<<endl;
+				if ( mazeutil(maze, sol[k][0], sol[k][1]))
+					return true;
+				else
+					k--;
+			}	
+		}
+		
+		//move in row right to left
+//		cout<<"Check move in row right to left"<<endl;
+//		cout<<"row is "<<row<<" col is "<<col<<endl;
+//		if ((row>=0) && (row < ROW))
+//		{
+//			if (maze[row-1][col] == 1)
+//			{
+//				sol[k++][0]	= row - 1;
+//				sol[k][1]   = col;
+//				mazeutil(maze, row-1, col);
+//				k--;
+//			}	
+//		}
+		
+		
+		
+		//move in col down to top
+//		cout<<"Check move in col down to top"<<endl;
+//		cout<<"row is "<<row<<" col is "<<col<<endl;
+//		if ((col >= 0) && (col < COL))
+//		{
+//			if (maze[row][col-1] == 1)
+//			{
+//				sol[k++][0]	= row ;
+//				sol[k][1]   = col-1;
+//				mazeutil(maze, row, col-1);
+//				k--;
+//			}	
+//		}
+	}
+	return false;
+}
+void printsolution()
+{
+	int k=0;
+	for (int i = 0; i<ROW;i++)
+	{
+		for (int j = 0; j<COL; j++)
+		{
+			if ((sol[k][0] == i) && (sol[k][1] == j))
+			{
+				cout<<"1, ";
+				k++;
+			}
+			else
+			{
+				cout<<"0, ";
+			}
+		}
+		cout<<endl;
+	}
+//	getche();
+//	exit (0);
+}
+void printsolarray()
+{
+	for (int i = 0; i<k;i++)
+	{
+		for (int j = 0; j<1; j++)
+		{
+			cout <<"sol["<<i<<"][0] is "<<sol[i][0];
+			cout <<" sol["<<i<<"][1] is "<<sol[i][1];
+			cout <<endl;
+		}
+	}	
+}
