@@ -1,0 +1,215 @@
+//maze with key
+//https://codingrecipies.blogspot.com/search/label/Backtracking
+#include <iostream>
+using namespace std;
+#define N 8
+#define MAX 32
+int sol[N][N];
+int k=0;
+bool isKeyFound=false;
+bool mazeutil(int [N][N], int, int);
+void printsolution();
+int main ()
+{
+	int board [N][N]={
+					 {1,0,0,0,1,1,1,1},
+					 {0,1,0,1,0,0,0,1},
+					 {1,0,0,2,0,1,0,1},
+					 {0,1,1,0,0,0,0,1},
+					 {1,0,1,0,1,0,1,0},
+					 {1,0,0,1,0,1,0,0},
+					 {1,0,1,0,0,0,0,1},
+					 {1,0,0,1,1,1,1,1}
+	};
+	sol[0][0]=1;
+	cout<<"Calling mazeutil"<<endl;
+	if (mazeutil(board, 0, 0)==true )
+	{
+		printsolution();
+	}
+	else
+	{
+		cout<<"No Solution possible";
+	}
+	return 0;
+}
+bool mazeutil(int b[N][N], int row, int col)
+{
+	//Here we will not check for cycle
+//	cout<<"Maze util Fn Call"<<endl;
+	if ((row == N-1) && (col == N-1))
+	{
+		if(isKeyFound)
+		{
+			sol[row][col] = 1;
+			cout<<"Path Marix is :"<<endl;
+			return true;
+		}
+	}
+	else
+	{
+		//Check for possible movements
+		//For Movement : top to bottom
+		if ( (row>=0) && (row < N) )
+		{
+			if (((b[row+1][col] == 1) || (b[row+1][col] == 2))&& (sol[row+1][col] !=1))
+			{
+				sol[row+1][col]=1;
+				if(b[row + 1][col] == 2)
+					isKeyFound=true;
+				if (mazeutil(b,row+1,col))
+					return true;
+				else
+				{
+					sol[row+1][col]=0;	
+					if(b[row + 1][col] == 2)
+						isKeyFound=false;
+				}				
+			}				
+		}
+		
+		//For Movement : left to right
+		if ( (col < N ) && (col >= 0) )
+		{
+			if (((b[row][col+1] == 1) || (b[row][col+1] == 2)) && (sol[row][col+1] != 1))
+			{
+				sol[row][col+1]=1;
+				if(b[row ][col +1] == 2)
+					isKeyFound=true;
+				if (mazeutil(b,row,col+1))
+					return true;
+				else
+				{
+					sol[row][col+1]=0;
+					if(b[row ][col+1] == 2)
+						isKeyFound=false;
+				}						
+			}
+		}
+		
+		//For Movement : right to left
+		if ( (col >= 0) && (col < N ))
+		{
+			if (((b[row][col-1] == 1) || (b[row][col-1] == 2)) && (sol[row][col-1] != 1))
+			{
+				sol[row][col-1]=1;
+				if(b[row ][col-1] == 2)
+					isKeyFound=true;
+				if (mazeutil(b,row,col-1))
+					return true;
+				else
+				{
+					sol[row][col-1]=0;
+					if(b[row ][col-1] == 2)
+						isKeyFound=false;
+				}				
+			}
+		}
+		//For Movement : bottom to top
+		if (( row >= 0 ) && (row < N ))
+		{
+			if (((b[row-1][col] == 1) || (b[row-1][col] == 2)) && (sol[row-1][col] != 1))
+			{
+				sol[row-1][col]=1;
+				if(b[row - 1][col] == 2)
+					isKeyFound=true;
+				if (mazeutil(b,row-1,col))
+					return true;
+				else
+				{
+					sol[row-1][col]=0;	
+					if(b[row -1][col] == 2)
+						isKeyFound=false;		
+				}				
+			}
+		}
+		//For Movement : north east
+		if ((row >=0 ) && (row < N) && (col >=0 ) && (col < N ))
+		{
+			if (((b[row-1][col+1] == 1)  || (b[row-1][col+1] == 2))&& (sol[row-1][col+1] != 1))
+			{
+				sol[row-1][col+1]=1;
+				if(b[row - 1][col +1] == 2)
+					isKeyFound=true;
+				if (mazeutil(b,row-1,col+1))
+					return true;
+				else
+				{
+					sol[row-1][col+1]=0;	
+					if(b[row -1][col+1] == 2)
+						isKeyFound=false;
+				}	
+			}
+		}
+		
+		//For Movement : north west
+		if ((row >=0 ) && (row < N) && (col >=0 ) && (col < N ))
+		{
+			if (((b[row-1][col-1] == 1) || (b[row-1][col-1] == 2)) && (sol[row-1][col-1] != 1))
+			{
+				sol[row-1][col-1]=1;
+				if(b[row - 1][col-1] == 2)
+					isKeyFound=true;
+				if (mazeutil(b,row-1,col-1))
+					return true;
+				else
+				{
+					sol[row-1][col-1]=0;	
+					if(b[row -1][col -1] == 2)
+						isKeyFound=false;	
+				}					
+			}
+		}
+		//For Movement : south west
+		if ((row >=0 ) && (row < N) && (col >=0 ) && (col < N ))
+		{
+			if (((b[row+1][col-1] == 1) || (b[row+1][col-1] == 2)) && (sol[row+1][col-1] != 1))
+			{
+				sol[row+1][col-1]=1;
+				if(b[row + 1][col-1] == 2)
+					isKeyFound=true;
+				if (mazeutil(b,row+1,col-1))
+					return true;
+				else
+				{
+					sol[row+1][col-1]=0;
+					if(b[row +1][col -1] == 2)
+						isKeyFound=false;		
+				}
+			}
+		}
+		//For Movement : south east
+		if ((row >=0 ) && (row < N) && (col >=0 ) && (col < N ))
+		{
+			if (((b[row+1][col+1] == 1) || (b[row+1][col+1] == 2)) && (sol[row+1][col+1] != 1))
+			{
+				sol[row+1][col+1]=1;
+				if(b[row + 1][col+1] == 2)
+					isKeyFound=true;
+				if (mazeutil(b,row+1,col+1))
+					return true;
+				else
+				{
+					sol[row+1][col+1]=0;
+					if(b[row +1][col +1] == 2)
+						isKeyFound=false;		
+				}
+						
+			}
+		}
+	}
+	return false;
+}
+
+void printsolution()
+{
+	cout<<"Output is "<<endl;
+	for (int i = 0; i<N;i++)
+	{
+		for (int j = 0; j<N; j++)
+		{
+			cout<<sol[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+}
