@@ -1,0 +1,127 @@
+//Longest common subsequence
+#include<iostream>
+#include<string.h>
+using namespace std;
+#define N 7
+void lcs(string, string, int [N][N], int, int);
+void printsolution( int , int, int [N][N]);
+void printsequence(string, string, int [N][N], int , int);
+int main()
+{
+	string str1="baeada";
+	string str2="abaeca";
+	int row = str1.length() +1;
+	int col = str2.length() +1;
+	int v[N][N];
+	//cout<<"Value is "<<str1[0];
+	lcs(str1, str2, v, row, col );
+	
+	str1="abcde";
+	str2="ace";
+	row = str1.length() +1;
+	col = str2.length() +1;
+	lcs(str1, str2, v, row, col );
+	
+	str1="babdae";
+	str2="acadae";
+	row = str1.length() +1;
+	col = str2.length() +1;
+	lcs(str1, str2, v, row, col );
+	
+	str1="abeac";
+	str2="baeca";
+	row = str1.length() +1;
+	col = str2.length() +1;
+	lcs(str1, str2, v, row, col );
+	return 0;
+}
+void lcs (string s1, string s2, int v[N][N], int ROW, int COL)
+{
+	//Pre-requisite data set
+	for (int i = 0; i<ROW; i++)
+	{
+		v[i][0] = 0;//col 0 set to 0
+	}
+	for (int i = 0; i<COL; i++)
+	{
+		v[0][i] = 0;//row 0 set to 0
+	}
+	
+//	for (int i = 0; i<COL; i++)
+//	{
+//		for (int j = 0; j<COL; j++)
+//			v[i][j] = 0;//row 0 set to 0
+//	}
+	//Now Calculate
+	for (int i=0; i<ROW-1; i++)
+	{
+		for (int j=0; j<COL-1; j++)
+		{
+			//if chars matches
+			if (s1[i] == s2[j])
+			{
+				v[i+1][j+1] = v[i][j]+1;
+			}
+			//if chars dont match
+			else
+			{
+				v[i+1][j+1] =  max (v[i][j+1],v[i+1][j]);
+			}
+		}
+	}
+	cout<<endl;
+	printsolution(ROW,COL, v);
+	cout<<"Longest Common Subsequence is of length "<<v[ROW-1][COL-1]<<endl;
+	cout<<"Sequence is ";
+	printsequence(s1, s2, v, ROW, COL); 
+	}
+void printsequence(string s1, string s2, int v[N][N], int row, int col)
+{
+	int i,j;
+	string result_str;
+	for (int k=0; k<v[row-1][col-1]; k++)
+	{
+		result_str.append("0");
+	}
+	i = s1.length();
+	j = s2.length();
+//	cout<<"row is "<<row<<endl;
+//	cout<<"col is "<<col<<endl;
+//	cout<<" i is "<<i<<endl;
+//	cout<<" j is "<<j<<endl;
+	int k=v[row-1][col-1];
+	while (i>=0 && j>=0)
+	{
+		if (s1[i-1] == s2[j-1])		
+		{
+			result_str[k-1]=s1[i-1];
+			i--;
+			j--;
+			k--;
+		}
+		else
+		{
+			if (v[i][j-1] > v[i-1][j])
+			{
+				j--;
+			}
+			else
+			{
+				i--;
+			}
+		}
+	}
+	cout <<result_str<<endl;
+}
+
+void printsolution(int row, int col, int v[N][N] )
+{
+	for (int i=0;i<row;i++)
+	{
+		for (int j=0;j<col;j++)
+		{
+			cout<<v[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+}
