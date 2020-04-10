@@ -1,0 +1,111 @@
+//longest palindrome substring
+#include <iostream>
+using namespace std;
+#define N 9
+int v[N][N]={0};
+void lps(int [N][N], string);
+void printsolution(int , string );
+int main()
+{
+		string s1 = "abacbdcba";
+		//LPS
+		lps(v, s1);
+		
+		s1 = "abaaba";
+		//LPS
+		v[N][N]={0};
+		lps(v, s1);
+		
+		s1 = "ddabalabacc";
+		//LPS
+		lps(v, s1);
+		return 0;
+	}
+void lps(int v[N][N], string s1)
+{
+	int i, j, len;
+	len = s1.length();//9
+	int k;
+	//Fill pre-requisite i.e. diagonal
+	//For Length =1
+	for (k=0; k<len; k++)
+	{
+		v[k][k]=1;
+	}
+	//Now calc further
+	//For Length = 2,3,4,....
+	for (int length_check=2; length_check<=len; length_check++)
+	{
+		int x,y;
+		for (x=0, y=x+(length_check-1) ; (y<len)&&(x<len) ; x++, y++)	
+		{
+			//Check for last chars match
+			if (s1[x] == s1[y])
+			{
+				v[x][y] = 2 + v[x+1][y-1];				
+			}				
+			else
+			{
+				//Don`t matches
+				v[x][y] = max ( v[x][y-1], v[x+1][y]);
+			}
+		}
+	}
+	printsolution(len, s1);
+}
+void printsolution(int len, string s1)
+{
+		
+	cout<<"Length is "<<len<<endl; 
+	for (int i=0;i<len;i++)
+	{
+		for (int j=0;j<len;j++)
+		{
+			cout<<v[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+	cout<<"Output is "<<v[0][len-1]<<endl;
+	//Now backtrack for solution
+	string result_str;
+	int k;
+	for (k=0;k<v[0][len-1]; k++)
+	{
+		result_str.append("0");
+	}
+	k=0;
+	int i=0, j = len-1;
+	while ((i!=j)&&(i>=0)&&(i<len)&&(j>=0)&&(j<len))
+	{
+		cout<<"i is "<<i<<" j is "<<j<<endl;
+		//chars matches
+		if (s1[i] == s1[j])
+		{
+			result_str[k] = s1[i];
+			result_str[v[0][len-1]-k-1] = s1[i];
+			i++;
+			j--;
+			k++;
+		}
+		else
+		{
+			//Chars dont matches
+			if (v[i][j-1] > v[i+1][j])
+			{
+				i = i;
+				j = j-1;
+			}
+			else
+			{
+				i = i+1;
+				j = j;
+			}
+		}
+	}
+	cout<<"Final i is "<<i<<" j is "<<j<<endl;
+	if ((v[0][len-1]%2)!=0)
+	{
+		result_str[k] = s1[i];
+	}
+	cout<<"Result_str is "<<result_str<<endl;
+}
