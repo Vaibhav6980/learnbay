@@ -1,0 +1,327 @@
+//Tic-Tac-Toe
+#include <iostream>
+#include <map>
+//Variables
+#define N 3
+using namespace std;
+int m[N][N]={0};
+static int count=2*N -1;
+//player, count-->>wrt row
+map<int, int> rows[N]; 
+map<int, int> cols[N]; 
+map<int, int> diag[N]; 
+map<int, int> antidiag[N]; 
+map<int, int>:: iterator itr;
+//Functions
+bool insert_matrix(int x, int y, int player);
+bool validate();
+bool validate(int, int, int);
+bool validate(int, int, int, int);
+void printmatrix();
+void update_map_row(int, int);
+void update_map_col(int, int);
+int checkrow(int, int);
+int checkcol(int, int);
+int main()
+{
+	//Matrix initialize to 0
+	insert_matrix(0,0,1);
+	
+	insert_matrix(0,1,2);
+	
+	insert_matrix(1,1,1);	
+	
+	insert_matrix(0,2,2);
+		
+	if (!insert_matrix(2,1,1))
+	{
+		printmatrix();
+		insert_matrix(2,0,2);	
+	}
+	return 0;
+}
+bool insert_matrix(int x, int y, int player)
+{
+	static int k=0;
+	if (m[x][y] == 0)
+	{
+		if (player == 1)
+		{
+			m[x][y]=1;
+			update_map_row(x, 1);
+			update_map_col(y, 1);
+		}
+		else
+		{
+			//i.e. player 2
+			m[x][y]=2;
+			update_map_row(x, 2);
+			update_map_col(y, 2);
+		}
+		k++;
+		if (k >= count)
+		{
+			//if (validate())
+			if (validate(x,y,player))
+			{
+					cout<<"Player "<<player<<" won"<<endl;
+					return true;
+			}
+			
+		}
+		
+	}
+	else
+	{
+		cout<<"System Error "<<endl;
+		return false;
+	}
+}
+
+bool validate()
+{
+	int n;
+	//Row check 
+	cout<<"Row Check "<<endl;
+	for (int i =0; i<N; i++)
+	{
+		n =0;
+		for (int j =1; j<N; j++)
+		{
+			//Check whole row 
+			if (m[i][0] != m[i][j])
+			{
+				cout<<"Breaking Row Check "<<endl;
+				break;
+			}
+			else 
+			{
+				++n;
+				if (n == N-1)
+				{
+						cout<<"Row Match it is"<<endl;		
+						return true;
+				}
+				
+			}
+		}
+	}
+	
+	cout<<"Column Check "<<endl;
+	//Column Check
+	for (int i =0; i<N; i++)
+	{
+		n =0;
+		for (int j =1; j<N; j++)
+		{
+			//Check whole row 
+			if (m[0][i] != m[j][i])
+			{
+				cout<<"Breaking Column Check "<<endl;
+				break;
+			}
+			else 
+			{
+				++n;
+				if (n == N-1)
+				{
+						cout<<"Column Match it is"<<endl;		
+						return true;
+				}
+			}
+		}
+	}
+	
+	cout<<"Diagonal Check "<<endl;
+	//Diagonal Check
+	n =0;
+	for (int i =1; i<N; i++)
+	{		
+		//Check whole row 
+		if (m[0][0] != m[i][i])
+		{
+			cout<<"Breaking Diagonal Check "<<endl;
+			break;
+		}
+		else 
+		{
+			++n;
+			if (n == N-1)
+			{
+					cout<<"Diagonal Match it is"<<endl;		
+					return true;
+			}	
+		}
+	}
+	
+	cout<<"Anti-Diagonal Check "<<endl;
+	//Anti-Diagonal Check
+	n =0;
+	for (int i =1; i<N; i++)
+	{
+		
+		//Check whole row 
+		if (m[0][N-1] != m[i][N-i-1])
+		{
+			cout<<"Breaking Anti-Diagonal Check "<<endl;
+			break;
+		}
+		else 
+		{
+			++n;
+			if (n == N-1)
+			{
+					cout<<"Anti-Diagonal Match it is"<<endl;		
+					return true;
+			}
+			
+		}
+	}
+	return false;
+}
+void printmatrix()
+{
+	for (int i =0;i<N;i++)
+	{
+		for (int j =0;j<N;j++)
+		{
+			cout <<m[i][j]<<" ";
+		}
+		cout <<endl;
+	}
+}
+bool validate(int x, int y, int player)
+{
+	int n;
+	//Row Check - Only One
+	for (int i=0; i<N; i++)
+	{
+		n =0;
+		if (m[x][0] != m[x][i])
+		{
+			cout<<"Breaking Row Check "<<endl;
+			break;
+		}
+		else 
+		{
+			++n;
+			if (n == N-1)
+			{
+				cout<<"Row Match it is"<<endl;		
+					return true;
+			}
+			
+		}
+	}
+	
+	//Column Check - Only One
+	for (int i=0; i<N; i++)
+	{
+		n =0;
+		if (m[0][y] != m[i][y])
+		{
+			cout<<"Breaking Column Check "<<endl;
+			break;
+		}
+		else 
+		{
+			++n;
+			if (n == N-1)
+			{
+				cout<<"Column Match it is"<<endl;		
+					return true;
+			}
+			
+		}
+	}
+	//Diagonal Check - if x==y
+	n=0;
+	if (x==y)
+	{	
+		for (int w =1; w<N; w++ )
+		{
+		
+		if (m[0][0] != m[w][w])
+		{
+			cout<<"Breaking Diagonal Check "<<endl;
+			break;
+		}
+		else
+		{
+			++n;
+			if (n == N-1)
+			{
+				cout<<"Diagonal Match it is"<<endl;		
+					return true;
+			}		
+		}
+		}	
+	}
+		
+	//Anti-Diagonal Check if x
+	n = 0;
+	for (int i =1; i<N; i++)
+	{
+		
+		//Check whole row 
+		if (m[0][N-1] != m[i][N-i-1])
+		{
+			cout<<"Breaking Anti-Diagonal Check "<<endl;
+			break;
+		}
+		else 
+		{
+			++n;
+			if (n == N-1)
+			{
+					cout<<"Anti-Diagonal Match it is"<<endl;		
+					return true;
+			}
+			
+		}
+	}
+	return false;
+}
+//For overall n*n time complexity
+bool validate(int x, int y, int player, int k)
+{
+	
+	// We are going to keep the count
+	// of values stored 
+}
+
+void update_map_row(int rowIndex, int player)
+{
+	if (rows[rowIndex].find(player) != rows[rowIndex].end())
+	{
+		(rows[rowIndex])[player]++;
+	}
+}
+
+void update_map_col(int colIndex, int player)
+{
+	if (cols[colIndex].find(player) != cols[colIndex].end())
+	{
+		(cols[colIndex])[player]++;
+	}
+}
+
+int checkrow(int rowIndex, int player)
+{
+	if ((rows[rowIndex])[player] == N)
+	{
+		return 1;
+	}
+	
+	return 0; 
+}
+
+int checkcol(int colIndex, int player)
+{
+	if ((cols[colIndex])[player] == N)
+	{
+		return 1;
+	}
+	
+	return 0; 
+} 
