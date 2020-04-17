@@ -1,0 +1,68 @@
+//frequency 
+#include <iostream>
+#include <map>
+#include <stack>
+using namespace std;
+//Variables
+map <int, int> map1;
+map <int, stack<int>> map2;
+int max_frequency_so_far=0;
+//Functions
+void push_stack(int);
+void pop_stack();
+int main()
+{
+	//Add elements in Stack as per question
+	push_stack(5);
+	push_stack(7);
+	push_stack(5);
+	push_stack(7);
+	push_stack(4);
+	push_stack(5);
+	
+	pop_stack();
+	pop_stack();
+	pop_stack();
+	pop_stack();
+	return 0;
+}
+void push_stack(int element)
+{
+	cout<<"pushing in stack element "<<element<<endl;
+	int freq;
+	if (map1.find(element) != map1.end())
+	{
+		//means element exists	
+		freq=++map1[element];
+	}
+	else
+	{
+		//element doesnot exist
+		map1[element] = 1;
+		freq=1;
+		
+	}
+	//Now insert data in map2
+	if (freq > max_frequency_so_far)
+			max_frequency_so_far=freq;
+	(map2[freq]).push(element);
+}
+void pop_stack()
+{
+	int popped_element;
+	cout<<"popping stack"<<endl;
+	if (map2.find(max_frequency_so_far) != map2.end())
+	{
+		//frequency exists 
+		//pop a element from stack
+		popped_element = (map2[max_frequency_so_far]).top();
+		(map2[max_frequency_so_far]).pop();
+		if (map2[max_frequency_so_far].empty())
+			max_frequency_so_far--;
+	}
+	else
+	{
+		cout<<"Element Can not be popped"<<endl;
+	}
+	cout<<"Popped element was "<<popped_element<<endl;
+}
