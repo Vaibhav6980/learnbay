@@ -1,0 +1,45 @@
+//Solution is not exactly correct
+//strobogrammatic Numbers
+#include <iostream>
+using namespace std;
+#define N 300
+int check_numbers(char [], int);
+int main()
+{
+	char ch []= "66";
+	//ch = ch + "\0";
+	int length = sizeof(ch)/sizeof(ch[0]);
+	//cout <<"Length is "<<length <<endl;
+	//cout <<"Char 0 is "<<(int)ch[0]<<endl;
+	//cout <<"Char 1 is "<<(int)ch[1]<<endl;
+	if (length)
+		check_numbers(ch, length);
+	return 0;
+}
+int check_numbers(char ch[], int len)
+{
+	char * ptr = ch;
+	for (int i =0;i<len-1;i++)
+	{
+		if ((*ptr == '1') || (*ptr == '8') || (*ptr == '0') ) 
+		{
+			ptr++;
+		}
+		else
+		{
+			if (((*ptr == '6')  && (*(ptr +1) =='9')) || ( (*ptr == '9')  && (*(ptr +1) =='6')))
+			{
+				ptr++;
+				ptr++;
+				i++;
+			}
+			else
+			{
+				cout<<"Not a STROBO Number "<<endl;
+				return 0;
+			}			
+		}
+	}
+	cout<<"It is a STROBO Number"<<endl;
+	return 1;	
+}
