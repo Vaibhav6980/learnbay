@@ -1,0 +1,63 @@
+//convert atoi
+#include <iostream>
+#include <math.h>
+using namespace std;
+bool atoi_fn(string);
+int main()
+{
+	//Input char - "1234"
+	//Output double - 1234
+	string s= "-123498";
+	if (atoi_fn(s))
+		cout<<" "<<endl;
+	else
+		cout<<"Output not possible"<<endl;
+	return 0;
+}
+bool atoi_fn(string s)
+{
+	int length = s.size();
+	if (length>0)
+	{
+	
+	cout<<"String "<<s<<" length is "<<length <<endl;
+	//traverse from right to left to string
+	//and char be char add numbers
+	int req_char_in_int ;
+	int power_var;
+	int k=0;
+	double result=0;
+	int sign=1;
+	int flag=0;
+	//Manage sign as well
+	if (s[0]=='-')
+	{
+		sign = -1;
+		flag=1;
+	}
+	
+	for (int i = length-1; i>=(flag); i--, k++)
+	{
+		req_char_in_int = (int)s[i] - 48;
+		if ((req_char_in_int >=0) && (req_char_in_int<=9))
+		{
+			//cout<<"required integer is "<<req_char_in_int<<endl;
+			power_var= k;	
+			result = result + (req_char_in_int*pow(10,(double)power_var));
+			//cout<<"Updated value of result is "<<result<<endl;		
+		}
+		else
+		{
+			return false;
+		}		
+	}
+	result = result *sign;
+	cout <<"Result is "<<result<<endl;
+	return true;
+	}
+	else
+	{
+		cout<<"Input string is not correct"<<endl;
+		return false;
+	}
+}
