@@ -1,0 +1,64 @@
+//Good explanation - But not used. I used video explanation from byte-byte
+//https://www.geeksforgeeks.org/find-two-missing-numbers-set-2-xor-based-solution/
+//missing two numbers
+#include <iostream>
+#include <math.h>
+using namespace std;
+void missing_two_numbers(int [], int);
+int main()
+{
+	int arr[]={1,3,5,6};
+	missing_two_numbers(arr,sizeof(arr)/sizeof(arr[0]));
+	return 0;
+}
+void missing_two_numbers(int arr[], int n)
+{
+	//Total number of elements should be
+	n = n+2;
+	cout<<"n is "<<n<<endl;
+	int a=1,b=1;
+	int i,j;
+	//Total sum of n elements
+	int sum=0;
+	sum = (n * (n+1))/2;
+	cout <<"Total sum is "<<sum<<endl;
+	
+	//Sum of array elements
+	int element_sum=0;
+	for(i=0;i<n-2;i++)
+	{
+		element_sum = element_sum + arr[i];
+	}
+	//Now sum of two elements is 
+	int two_elements_sum = sum - element_sum;
+//	cout<<"two_elements_sum is "<<two_elements_sum<<endl;
+	int avg = floor (two_elements_sum/2);
+//	cout<<"avg is "<<avg<<endl;
+	//Perform XOR of first half and then second half
+	int first_xor = 0;//arr[0]; // 0 to avg Index
+	int second_xor = 0;//arr[avg+1]; // avg+1 to n Index
+	int expected_first_xor = 0;
+	for(i=1; i<=avg; i++)
+	{
+//		cout<<"i is "<<i<<endl;
+		expected_first_xor = expected_first_xor ^ i;
+	}
+	int expected_second_xor = 0;
+	for(i=avg+1; i<=n; i++)
+	{
+//		cout<<"i is "<<i<<endl;
+		expected_second_xor = expected_second_xor ^ i;
+	}
+
+	for(i=0; (i<n-2) ; i++)
+	{
+//		cout<<"arr[i] is "<<arr[i]<<endl;
+		if  (arr[i]<=avg) 
+			first_xor = first_xor ^ arr[i];
+		else
+			second_xor = second_xor ^ arr[i];
+	}
+	a = expected_first_xor ^ first_xor;
+	b = expected_second_xor ^ second_xor;
+	cout<<"Missing numbers are "<<a<<" "<<b<<endl;
+}
