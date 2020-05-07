@@ -1,0 +1,48 @@
+//logger rate limiter
+#include <iostream>
+#include <string.h>
+#include <map>
+using namespace std;
+#define TIMEF 10
+map <string, int> m;
+bool logger(int , string );
+int main()
+{
+	string F = "false";
+	string T = "true";
+	cout<<" "<<logger(1,"foo")<<endl;
+	cout<<" "<<logger(2,"bar")<<endl;
+	cout<<" "<<logger(3,"foo")<<endl;
+	cout<<" "<<logger(8,"bar")<<endl;
+	cout<<" "<<logger(10,"foo")<<endl;
+	cout<<" "<<logger(11,"foo")<<endl;
+	return 0;
+}
+bool logger(int a, string s)
+{
+	cout<<"Input is key "<<s<< " Value as "<< a<<endl;
+	//Key, Value are "foo", 1
+	//if found in map then we 
+	//can only check it
+	if (m.find(s)!=m.end())
+	{
+		cout<<"Element found with key "<<s<< " Value as "<< m[s]<<endl;
+		if (a >= (TIMEF+m[s]))
+		{
+			m[s]=a;
+			cout<<"Returning true"<<endl;
+			return true;
+		}
+	}
+	else
+	//if not found in map 
+	//then insert in map
+	{
+		cout<<"Inserting Data "<<endl;
+		m[s]=a;
+		cout<<"Returning true"<<endl;
+		return true;
+	}
+	cout<<"Returning false"<<endl;
+	return false;
+}
